@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="cdjinxiaocun"
+  id="myeclipse.1480747586091"
+  context-root="/cdjinxiaocun"
+  j2ee-spec="5.0"
+  archive="cdjinxiaocun.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

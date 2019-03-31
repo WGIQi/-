@@ -1,0 +1,43 @@
+
+
+	@RequestMapping("/spchuTongji")
+	public void spchuTongji(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		String sdate=request.getParameter("sdate");
+		String edate=request.getParameter("edate");
+		List<Integer> shangpinIds = new ArrayList<Integer>();
+		List<String> shangpinNames = new ArrayList<String>();
+		List<Double> spchuZongshus = new ArrayList<Double>();
+		List<Shangpin> shangpins = new ArrayList<Shangpin>();
+		List<Spchu> spchus = new ArrayList<Spchu>();
+		Spchu spchu = new Spchu();
+		Double zongshuspchu = 0.0;
+		try {
+			shangpins = shangpinService.queryShangpins(null, 0,0, sdate, edate);
+			for(int i=0;i<shangpins.size();i++){
+				shangpinIds.add(shangpins.get(i).getShangpinId());
+				shangpinNames.add(shangpins.get(i).getShangpinName());
+			}
+			for(int i=0;i<shangpinIds.size();i++){
+				Double spchuZongshu = 0.0;
+				spchu.setShangpinId(shangpinIds.get(i));
+				spchus = spchuService.querySpchus(spchu, 0, 0, sdate, edate);
+				for(int j=0;j<spchus.size();j++){
+					spchuZongshu = spchuZongshu + spchus.get(j).getSpchuZe();
+				}
+				zongshuspchu = zongshuspchu + spchuZongshu;
+				spchuZongshus.add(spchuZongshu);
+			}
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("shangpinNames", shangpinNames);
+			session.setAttribute("spchuZongshus", spchuZongshus);
+			session.setAttribute("zongshuspchu", zongshuspchu);
+			response.sendRedirect("admin/spchutongji.jsp");	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
